@@ -1,0 +1,28 @@
+---
+import BaseLayout       from '@/layouts/BaseLayout.astro';
+import Navbar           from '@/components/shared/Navbar.astro';
+import Hero             from '@/components/sections/Hero.astro';
+import JoinModal        from '@/components/shared/JoinModal.astro';
+import Problem          from '@/components/sections/Problem.astro';
+import ProjectStatus    from '@/components/sections/ProjectStatus.astro';
+import Roles            from '@/components/sections/Roles.astro';
+import Benefits         from '@/components/sections/Benefits.astro';
+import HowToJoin        from '@/components/sections/HowToJoin.astro';
+import FAQ              from '@/components/sections/FAQ';
+import Footer           from '@/components/sections/Footer.astro';
+---
+
+<BaseLayout>
+  <Navbar />
+  <main>
+    <Hero />
+    <Problem />
+    <ProjectStatus />
+    <Roles />
+    <Benefits />
+    <HowToJoin />
+    <FAQ client:load />
+  </main>
+  <Footer />
+  <JoinModal />
+</BaseLayout>

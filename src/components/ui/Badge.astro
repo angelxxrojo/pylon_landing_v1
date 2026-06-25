@@ -1,0 +1,12 @@
+---
+interface Props {
+  variant?: 'success' | 'pending' | 'planned' | 'neutral';
+  class?: string;
+}
+
+const { variant = 'neutral', class: extraClass = '' } = Astro.props;
+
+const classes = ['badge', `badge-${variant}`, extraClass].filter(Boolean).join(' ');
+---
+
+<span class={classes}><slot /></span>

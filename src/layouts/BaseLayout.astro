@@ -1,0 +1,60 @@
+---
+import { SITE_METADATA } from '@/constants/metadata';
+import GrainBackground from '@/components/shared/GrainBackground.astro';
+import '@/styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title       = SITE_METADATA.title,
+  description = SITE_METADATA.description,
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#000000" />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+
+    <!-- Open Graph -->
+    <meta property="og:title"       content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image"       content={SITE_METADATA.ogImage} />
+    <meta property="og:type"        content="website" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="icon" type="image/svg+xml" href="/images/favicon.svg" />
+  </head>
+
+  <body>
+    <GrainBackground />
+    <slot />
+  </body>
+</html>
+
+<style is:global>
+  html, body {
+    /* clip en lugar de hidden: evita scroll horizontal
+       sin crear un scroll-container que rompe position:sticky */
+    overflow-x: clip;
+  }
+
+  body {
+    background: transparent;
+  }
+</style>

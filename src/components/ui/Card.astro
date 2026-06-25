@@ -1,0 +1,23 @@
+---
+interface Props {
+  class?: string;
+  accentColor?: 'edificio' | 'parque' | 'club' | 'acento';
+}
+
+const { class: extraClass = '', accentColor } = Astro.props;
+
+const accentMap: Record<string, string> = {
+  edificio: 'border-l-4 border-l-[var(--color-edificio)]',
+  parque:   'border-l-4 border-l-[var(--color-parque)]',
+  club:     'border-l-4 border-l-[var(--color-club)]',
+  acento:   'border-l-4 border-l-[var(--color-acento)]',
+};
+
+const classes = ['card', accentColor ? accentMap[accentColor] : '', extraClass]
+  .filter(Boolean)
+  .join(' ');
+---
+
+<div class={classes}>
+  <slot />
+</div>

@@ -1,0 +1,249 @@
+---
+import Badge from '@/components/ui/Badge.astro';
+import { TEAM_ROLES } from '@/constants/content';
+
+const accents = [
+  'var(--color-edificio)',
+  'var(--color-parque)',
+  'var(--color-club)',
+  'var(--color-acento)',
+];
+---
+
+<section id="roles" class="roles-section">
+
+  <!-- SVG full-section: las líneas cubren toda la sección -->
+  <svg id="roles-svg" class="roles__svg" aria-hidden="true"></svg>
+
+  <div class="roles__inner">
+
+    <!-- Header -->
+    <div class="roles__header">
+      <p class="section-label section-label--light">El Equipo</p>
+      <h2 class="roles__title">¿A quién buscamos?</h2>
+      <p class="roles__subtitle">
+        No solo programadores. Hay un rol para cada tipo de talento — y si no sabes programar, también hay lugar para ti.
+      </p>
+    </div>
+
+    <!-- Grilla — sin bordes, las líneas del SVG las forman -->
+    <div class="roles__grid" id="roles-grid">
+      {TEAM_ROLES.map((role, i) => (
+        <article
+          class="roles__cell"
+          style={`--accent: ${accents[i % accents.length]}`}
+        >
+          <!-- Barra de acento en el tope -->
+          <div aria-hidden="true"></div>
+
+          <div class="roles__cell-body">
+            <div class="roles__cell-head">
+              <h3 class="roles__cell-title">{role.title}</h3>
+              {role.openIssues > 0 && (
+                <Badge variant="pending">{role.openIssues} issues</Badge>
+              )}
+            </div>
+            <p class="roles__cell-desc">{role.description}</p>
+            <div class="roles__skills">
+              {role.skills.map(skill => (
+                <span class="roles__skill">{skill}</span>
+              ))}
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+
+  </div>
+</section>
+
+<style>
+  /* ── Sección — posición relativa para el SVG absoluto ── */
+  .roles-section {
+    position: relative;
+    overflow: hidden;
+    padding-top: 5rem;
+    padding-bottom: 6rem;
+  }
+
+  /* SVG cubre toda la sección */
+  .roles__svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Líneas del SVG */
+  :global(#roles-svg line) {
+    stroke: rgba(255, 255, 255, 0.1);
+    stroke-width: 0.7;
+  }
+
+  /* Contenido encima del SVG */
+  .roles__inner {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── Header ──────────────────────────────────────── */
+  .roles__header {
+    max-width: 1120px;
+    margin: 0 auto 3.5rem;
+    padding: 0 2.5rem;
+  }
+
+  .roles__title {
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin: 0.5rem 0 0.875rem;
+  }
+
+  .roles__subtitle {
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    color: rgba(255,255,255,0.4);
+    max-width: 500px;
+  }
+
+  /* ── Grilla — sin bordes CSS ─────────────────────── */
+  .roles__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    max-width: 1120px;
+    margin: 0 auto;
+  }
+
+  /* ── Celda ───────────────────────────────────────── */
+  .roles__cell {
+    display: flex;
+    flex-direction: column;
+    transition: background 0.2s ease;
+  }
+
+  .roles__cell:hover {
+    background: rgba(255,255,255,0.025);
+  }
+
+  /* Barra de acento en el tope de la celda */
+  .roles__cell-accent {
+    height: 2px;
+    background: var(--accent);
+    opacity: 0.75;
+    flex-shrink: 0;
+  }
+
+  .roles__cell-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1.75rem 1.75rem 2rem;
+    flex: 1;
+  }
+
+  /* ── Contenido ───────────────────────────────────── */
+  .roles__cell-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .roles__cell-title {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 700;
+    color: rgba(255,255,255,0.9);
+    line-height: 1.3;
+  }
+
+  .roles__cell-desc {
+    font-size: 0.875rem;
+    line-height: 1.65;
+    color: rgba(255,255,255,0.4);
+    flex: 1;
+  }
+
+  /* ── Skills ──────────────────────────────────────── */
+  .roles__skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+    margin-top: auto;
+    padding-top: 0.5rem;
+  }
+
+  .roles__skill {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 100px;
+    padding: 0.2rem 0.625rem;
+    color: rgba(255,255,255,0.5);
+  }
+
+  /* ── Responsive ──────────────────────────────────── */
+  @media (max-width: 1023px) {
+    .roles__grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 599px) {
+    .roles__grid  { grid-template-columns: 1fr; }
+    .roles__header { padding: 0 1.25rem; }
+  }
+</style>
+
+<script>
+  function buildGrid() {
+    const section = document.getElementById('roles')      as HTMLElement | null;
+    const svg     = document.getElementById('roles-svg')  as SVGSVGElement | null;
+    const grid    = document.getElementById('roles-grid') as HTMLElement | null;
+    if (!section || !svg || !grid) return;
+
+    const W = section.offsetWidth;
+    const H = section.offsetHeight;
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    svg.innerHTML = '';
+
+    const ns    = 'http://www.w3.org/2000/svg';
+    const sRect = section.getBoundingClientRect();
+    const cells = Array.from(grid.children) as HTMLElement[];
+    if (!cells.length) return;
+
+    // Recoge los bordes de cada celda → posiciones de línea únicas
+    const xs = new Set<number>();
+    const ys = new Set<number>();
+
+    cells.forEach(cell => {
+      const r = cell.getBoundingClientRect();
+      xs.add(Math.round(r.left  - sRect.left));
+      xs.add(Math.round(r.right - sRect.left));
+      ys.add(Math.round(r.top    - sRect.top));
+      ys.add(Math.round(r.bottom - sRect.top));
+    });
+
+    const addLine = (x1: number, y1: number, x2: number, y2: number) => {
+      const l = document.createElementNS(ns, 'line');
+      l.setAttribute('x1', String(x1)); l.setAttribute('y1', String(y1));
+      l.setAttribute('x2', String(x2)); l.setAttribute('y2', String(y2));
+      svg.appendChild(l);
+    };
+
+    // Líneas verticales — de arriba a abajo de TODA la sección
+    Array.from(xs).sort((a, b) => a - b).forEach(x => addLine(x, 0, x, H));
+
+    // Líneas horizontales — de borde a borde de TODA la sección
+    Array.from(ys).sort((a, b) => a - b).forEach(y => addLine(0, y, W, y));
+  }
+
+  requestAnimationFrame(() => setTimeout(buildGrid, 30));
+  window.addEventListener('resize', buildGrid);
+</script>

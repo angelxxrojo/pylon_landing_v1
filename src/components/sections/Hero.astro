@@ -1,0 +1,312 @@
+---
+import { HERO } from '@/constants/content';
+import { CTA_PRIMARY, CTA_GITHUB } from '@/constants/navigation';
+---
+
+<section class="hero" id="hero">
+
+  <!-- Grid lines SVG — dibujado dinámicamente por JS -->
+  <svg id="hero-svg" class="hero__svg" aria-hidden="true"></svg>
+
+  <!-- Contenido principal -->
+  <div class="hero__body" id="hero-body">
+
+    <div class="hero__text">
+      <p class="hero__label">{HERO.label}</p>
+
+      <h1 class="hero__title">
+        {HERO.title}
+        <span class="hero__title-highlight">{HERO.titleHighlight}</span>
+      </h1>
+
+      <p class="hero__subtitle">{HERO.subtitle}</p>
+    </div>
+
+    <div class="hero__stats">
+      {HERO.stats.map(stat => (
+        <div class="hero__stat">
+          <span class="hero__stat-value">{stat.value}</span>
+          <span class="hero__stat-label">{stat.label}</span>
+        </div>
+      ))}
+    </div>
+
+  </div>
+
+  <!-- Botones crosshair — posicionados por JS en intersección de líneas -->
+  <div class="hero__btns" id="hero-btns">
+    <button type="button" class="crosshair-btn" id="btn1" data-join-trigger>
+      <span>{CTA_PRIMARY.label}</span>
+    </button>
+    <a href={CTA_GITHUB.href} class="crosshair-btn" id="btn2" target="_blank" rel="noopener noreferrer">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="flex-shrink:0;">
+        <path d="M12 0C5.37 0 0 5.373 0 12c0 5.303 3.438 9.8 8.205 11.387.6.113.82-.258.82-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
+      </svg>
+      <span>GitHub</span>
+    </a>
+  </div>
+
+</section>
+
+<style>
+  /* ── Sección ─────────────────────────────────────── */
+  .hero {
+    position: relative;
+    width: 100%;
+    height: 100svh;
+    overflow: hidden;
+    background: transparent;
+  }
+
+  /* ── SVG grid overlay ────────────────────────────── */
+  .hero__svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* Las líneas se estilizan desde aquí para que el JS no necesite inline styles */
+  :global(#hero-svg line) {
+    stroke: rgba(255, 255, 255, 0.12);
+    stroke-width: 0.7;
+  }
+
+  /* ── Contenido ───────────────────────────────────── */
+  .hero__body {
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    padding: calc(72px + 2rem) 2rem 3rem 2.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 2.5rem;
+    height: 100%;
+    width: min(55%, 900px);
+  }
+
+  .hero__label {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--color-edificio);
+    margin-bottom: 1.25rem;
+  }
+
+  .hero__title {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    line-height: 1.07;
+    letter-spacing: -0.025em;
+    color: #fff;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero__title-highlight {
+    color: var(--color-edificio);
+  }
+
+  .hero__subtitle {
+    font-size: clamp(0.9375rem, 1.2vw, 1.0625rem);
+    line-height: 1.7;
+    color: rgba(255, 255, 255);
+  }
+
+  /* ── Stats (parte baja del body) ─────────────────── */
+  .hero__stats {
+    display: flex;
+    gap: 2.5rem;
+  }
+
+  .hero__stat {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .hero__stat-value {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 2rem;
+    color: #fff;
+    line-height: 1;
+    letter-spacing: -0.025em;
+  }
+
+  .hero__stat-label {
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.38);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  /* ── Crosshair buttons ───────────────────────────── */
+  .hero__btns {
+    position: absolute;
+    z-index: 2;
+    display: flex;
+    /* tamaño y posición los pone el JS */
+  }
+
+  .crosshair-btn {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.7);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    overflow: hidden;
+    transition: color 0.3s ease;
+    /* borde con la misma línea del SVG */
+
+  }
+
+  /* Fill desde abajo en hover */
+  .crosshair-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.1);
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .crosshair-btn:hover::before { transform: scaleY(1); }
+  .crosshair-btn:hover         { color: #fff; }
+
+  .crosshair-btn span {
+    position: relative;
+    z-index: 1;
+  }
+
+  .crosshair-btn svg {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── Mobile: layout simplificado ────────────────── */
+  @media (max-width: 640px) {
+    .hero {
+      height: 110svh;
+      min-height: 680px;
+    }
+
+    .hero__body {
+      width: 100%;
+      justify-content: flex-end;
+      padding: calc(72px + 2rem) 1.5rem 11rem;
+      gap: 1.75rem;
+    }
+
+    .hero__btns {
+      /* Anclado al fondo de la sección */
+      position: absolute !important;
+      bottom: 2rem !important;
+      left: 1.5rem !important;
+      right: 1.5rem !important;
+      top: auto !important;
+      width: auto !important;
+      height: auto !important;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .crosshair-btn {
+      width: 100% !important;
+      height: 52px !important;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .crosshair-btn::before { transition: none; }
+  }
+</style>
+
+<script>
+  function buildHero() {
+    const hero = document.getElementById('hero');
+    const svg  = document.getElementById('hero-svg');
+    const btns = document.getElementById('hero-btns');
+    const btn1 = document.getElementById('btn1');
+    const btn2 = document.getElementById('btn2');
+
+    if (!hero || !svg || !btns || !btn1 || !btn2) return;
+
+    // En mobile el CSS controla la posición — limpiar inline styles y salir
+    if (window.innerWidth <= 640) {
+      Object.assign(btns.style, { left: '', top: '', width: '', height: '' });
+      (btn1 as HTMLElement).style.cssText = '';
+      (btn2 as HTMLElement).style.cssText = '';
+      return;
+    }
+
+    const W = hero.offsetWidth;
+    const H = hero.offsetHeight;
+
+    // ── Columnas y filas ─────────────────────────
+    const col1 = Math.round(W * 0.60);   // borde izquierdo de botones
+    const col2 = Math.round(W * 0.78);   // divisor entre btn1 y btn2
+    const col3 = Math.round(W * 0.93);   // borde derecho de botones
+    const colA = Math.round(W * 0.32);   // línea de ambiente izquierda
+
+    const btnH = 52;
+    const row1 = Math.round(H * 0.82);   // tope de botones — más abajo
+    const row2 = row1 + btnH;            // fondo de botones
+    const rowA = Math.round(H * 0.18);   // línea ambiente superior
+    const rowB = Math.round(H * 0.55);   // línea ambiente media
+
+    // ── Posicionar contenedor de botones ─────────
+    Object.assign(btns.style, {
+      left:   col1 + 'px',
+      top:    row1 + 'px',
+      width:  (col3 - col1) + 'px',
+      height: btnH + 'px',
+    });
+
+    (btn1 as HTMLElement).style.width  = (col2 - col1) + 'px';
+    (btn1 as HTMLElement).style.height = btnH + 'px';
+    (btn2 as HTMLElement).style.width  = (col3 - col2) + 'px';
+    (btn2 as HTMLElement).style.height = btnH + 'px';
+
+    // ── Dibujar líneas SVG ────────────────────────
+    svg.innerHTML = '';
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    const ns = 'http://www.w3.org/2000/svg';
+
+    const vLines = [col1, col2, col3, colA];
+    const hLines = [row1, row2, rowA, rowB];
+
+    vLines.forEach(x => {
+      const l = document.createElementNS(ns, 'line');
+      l.setAttribute('x1', String(x)); l.setAttribute('y1', '0');
+      l.setAttribute('x2', String(x)); l.setAttribute('y2', String(H));
+      svg.appendChild(l);
+    });
+
+    hLines.forEach(y => {
+      const l = document.createElementNS(ns, 'line');
+      l.setAttribute('x1', '0');       l.setAttribute('y1', String(y));
+      l.setAttribute('x2', String(W)); l.setAttribute('y2', String(y));
+      svg.appendChild(l);
+    });
+  }
+
+  // Pequeño delay para que el DOM esté pintado
+  requestAnimationFrame(() => setTimeout(buildHero, 30));
+  window.addEventListener('resize', buildHero);
+</script>

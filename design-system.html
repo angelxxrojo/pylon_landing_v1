@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#1A1A1A">
+  <title>Design System — Parque Central</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* =====================================================
+       DESIGN TOKENS — Parque Central Club Residencial
+       Mobile-first v2.0
+    ===================================================== */
+    :root {
+      --color-edificio:   #C9541E;
+      --color-parque:     #3E7A3C;
+      --color-club:       #8ECDD8;
+      --color-acento:     #BE1E2D;
+      --color-oscuro:     #1A1A1A;
+      --color-texto:      #5A5A5A;
+      --color-borde:      #E5E5E5;
+      --color-superficie: #FFFFFF;
+      --color-fondo:      #F4F4F4;
+
+      --font-display: 'Playfair Display', Georgia, serif;
+      --font-body:    'Inter', system-ui, sans-serif;
+
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 16px;
+      --radius-xl: 20px;
+
+      --shadow-card:  0 1px 4px rgba(0,0,0,0.07);
+      --shadow-modal: 0 8px 40px rgba(0,0,0,0.18);
+      --shadow-nav:   0 -1px 0 rgba(0,0,0,0.06);
+
+      /* Touch target minimum */
+      --touch-target: 48px;
+
+      /* Safe area for notched phones */
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      color: var(--color-texto);
+      background: var(--color-fondo);
+      font-size: 16px; /* base 16px — never smaller on mobile */
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* =====================================================
+       TYPOGRAPHY — Mobile-first scale
+    ===================================================== */
+    .type-hero    { font-family: var(--font-display); font-size: 2rem;    font-weight: 700; line-height: 1.15; color: var(--color-oscuro); }
+    .type-h1      { font-family: var(--font-display); font-size: 1.625rem;font-weight: 700; line-height: 1.2;  color: var(--color-oscuro); }
+    .type-h2      { font-family: var(--font-display); font-size: 1.375rem;font-weight: 600; line-height: 1.25; color: var(--color-oscuro); }
+    .type-h3      { font-family: var(--font-body);    font-size: 1.0625rem;font-weight: 600; line-height: 1.35; color: var(--color-oscuro); }
+    .type-body    { font-family: var(--font-body);    font-size: 1rem;    font-weight: 400; line-height: 1.6;  color: var(--color-texto); }
+    .type-small   { font-family: var(--font-body);    font-size: 0.875rem;font-weight: 400; line-height: 1.5;  color: var(--color-texto); }
+    .type-label   { font-family: var(--font-body);    font-size: 0.6875rem;font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-texto); }
+    .type-caption { font-family: var(--font-body);    font-size: 0.75rem; font-weight: 400; line-height: 1.4;  color: var(--color-texto); }
+
+    @media (min-width: 640px) {
+      .type-hero  { font-size: 3rem; }
+      .type-h1    { font-size: 2.25rem; }
+      .type-h2    { font-size: 1.75rem; }
+    }
+
+    /* =====================================================
+       BUTTONS — Touch-first (min 48px)
+    ===================================================== */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      min-height: var(--touch-target);
+      padding: 0 1.375rem;
+      font-family: var(--font-body);
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: var(--radius-md);
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      text-decoration: none;
+      white-space: nowrap;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    .btn-primary   { background: var(--color-edificio); color: #fff; border-color: var(--color-edificio); }
+    .btn-primary:active { background: #a8441a; }
+
+    .btn-secondary { background: transparent; color: var(--color-edificio); border-color: var(--color-edificio); }
+    .btn-secondary:active { background: #fdf1ec; }
+
+    .btn-danger    { background: var(--color-acento); color: #fff; border-color: var(--color-acento); }
+    .btn-danger:active { background: #9e1826; }
+
+    .btn-ghost     { background: transparent; color: var(--color-texto); border-color: var(--color-borde); }
+    .btn-ghost:active { background: var(--color-borde); }
+
+    /* Full-width — primary pattern on mobile */
+    .btn-block     { width: 100%; }
+
+    /* Compact — used inside list items or table cells only */
+    .btn-sm        { min-height: 36px; padding: 0 0.875rem; font-size: 0.875rem; border-radius: var(--radius-sm); }
+
+    .btn:disabled  { opacity: 0.4; pointer-events: none; }
+
+    @media (hover: hover) {
+      .btn-primary:hover   { background: #a8441a; border-color: #a8441a; }
+      .btn-secondary:hover { background: #fdf1ec; }
+      .btn-danger:hover    { background: #9e1826; border-color: #9e1826; }
+      .btn-ghost:hover     { background: var(--color-fondo); }
+    }
+
+    /* =====================================================
+       BADGES
+    ===================================================== */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      padding: 0.25rem 0.625rem;
+      font-size: 0.6875rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      border-radius: 100px;
+      white-space: nowrap;
+      line-height: 1;
+    }
+    .badge-guard    { background: #d1ecf0; color: #185a64; }
+    .badge-board    { background: #fde8dc; color: #8a3615; }
+    .badge-admin    { background: #fce0e3; color: #8a1520; }
+    .badge-resident { background: #dceadc; color: #254d24; }
+    .badge-success  { background: #dceadc; color: #254d24; }
+    .badge-pending  { background: #fde8dc; color: #8a3615; }
+    .badge-error    { background: #fce0e3; color: #8a1520; }
+    .badge-neutral  { background: #ebebeb; color: #555; }
+
+    /* =====================================================
+       CARDS
+    ===================================================== */
+    .card {
+      background: var(--color-superficie);
+      border: 1px solid var(--color-borde);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-card);
+      overflow: hidden;
+    }
+    .card-header {
+      padding: 1rem 1.125rem;
+      border-bottom: 1px solid var(--color-borde);
+      font-weight: 600;
+      font-size: 1rem;
+      color: var(--color-oscuro);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      min-height: var(--touch-target);
+    }
+    .card-body   { padding: 1.125rem; }
+    .card-footer {
+      padding: 0.875rem 1.125rem;
+      border-top: 1px solid var(--color-borde);
+      background: var(--color-fondo);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    /* KPI / Stat card */
+    .card-stat {
+      background: var(--color-superficie);
+      border: 1px solid var(--color-borde);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-card);
+      padding: 1.125rem;
+      border-left: 4px solid var(--color-edificio);
+    }
+    .card-stat-value { font-family: var(--font-display); font-size: 2rem; font-weight: 700; color: var(--color-oscuro); line-height: 1; }
+    .card-stat-label { font-size: 0.8125rem; color: var(--color-texto); margin-top: 0.375rem; }
+
+    /* =====================================================
+       FORM ELEMENTS — 16px font = no iOS zoom
+    ===================================================== */
+    .input-group { display: flex; flex-direction: column; gap: 0.375rem; }
+
+    .input-label {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--color-oscuro);
+    }
+
+    .input-field,
+    .select-field,
+    .textarea-field {
+      font-family: var(--font-body);
+      font-size: 16px; /* CRITICAL: prevents iOS auto-zoom */
+      color: var(--color-oscuro);
+      background: var(--color-superficie);
+      border: 1.5px solid var(--color-borde);
+      border-radius: var(--radius-md);
+      padding: 0 1rem;
+      width: 100%;
+      min-height: var(--touch-target);
+      transition: border-color 0.15s, box-shadow 0.15s;
+      outline: none;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+    .textarea-field { padding: 0.875rem 1rem; min-height: 120px; resize: vertical; }
+
+    .input-field:focus,
+    .select-field:focus,
+    .textarea-field:focus {
+      border-color: var(--color-edificio);
+      box-shadow: 0 0 0 3px rgba(201,84,30,0.12);
+    }
+    .input-field.error,
+    .select-field.error   { border-color: var(--color-acento); }
+
+    .input-hint      { font-size: 0.8125rem; color: var(--color-texto); }
+    .input-error-msg { font-size: 0.8125rem; color: var(--color-acento); font-weight: 500; }
+
+    /* =====================================================
+       CARD LIST — mobile table alternative
+       Better UX than horizontal-scroll tables on phones
+    ===================================================== */
+    .card-list {
+      display: flex;
+      flex-direction: column;
+      border: 1px solid var(--color-borde);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      background: var(--color-borde);
+      gap: 1px;
+    }
+    .card-list-item {
+      background: var(--color-superficie);
+      padding: 0.875rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.875rem;
+      min-height: 68px;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .card-list-item:active { background: var(--color-fondo); }
+    .card-list-item-content { flex: 1; min-width: 0; }
+    .card-list-item-title   { font-weight: 600; font-size: 0.9375rem; color: var(--color-oscuro); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .card-list-item-subtitle{ font-size: 0.8125rem; color: var(--color-texto); margin-top: 0.2rem; }
+    .card-list-item-meta    { font-size: 0.75rem; color: var(--color-texto); margin-top: 0.125rem; }
+    .card-list-item-right   { flex-shrink: 0; display: flex; flex-direction: column; align-items: flex-end; gap: 0.375rem; }
+
+    /* Scrollable table — desktop / landscape fallback */
+    .table-wrapper {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--color-borde);
+    }
+    .table-pylon { width: 100%; border-collapse: collapse; font-size: 0.875rem; min-width: 500px; }
+    .table-pylon thead tr  { background: var(--color-fondo); border-bottom: 2px solid var(--color-borde); }
+    .table-pylon th        { padding: 0.75rem 1rem; text-align: left; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--color-texto); white-space: nowrap; }
+    .table-pylon td        { padding: 0.875rem 1rem; color: var(--color-oscuro); border-bottom: 1px solid var(--color-borde); vertical-align: middle; }
+    .table-pylon tbody tr:last-child td { border-bottom: none; }
+
+    /* =====================================================
+       ALERTS — static banners
+    ===================================================== */
+    .alert {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 1rem;
+      border-radius: var(--radius-md);
+      border-left: 4px solid;
+      font-size: 0.9375rem;
+      line-height: 1.5;
+    }
+    .alert-icon    { font-size: 1.1rem; flex-shrink: 0; margin-top: 0.1rem; }
+    .alert-content { flex: 1; }
+    .alert-title   { font-weight: 600; margin-bottom: 0.2rem; font-size: 0.9375rem; }
+
+    .alert-success { background: #dceadc; border-color: var(--color-parque); color: #254d24; }
+    .alert-error   { background: #fce0e3; border-color: var(--color-acento);  color: #8a1520; }
+    .alert-warning { background: #fde8dc; border-color: var(--color-edificio); color: #8a3615; }
+    .alert-info    { background: #d1ecf0; border-color: var(--color-club);    color: #185a64; }
+
+    /* =====================================================
+       TOAST / SNACKBAR — mobile feedback pattern
+       Appears above bottom nav
+    ===================================================== */
+    .toast-demo {
+      position: relative;
+      border-radius: var(--radius-md);
+      padding: 0.875rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.9375rem;
+      font-weight: 500;
+      color: #fff;
+      box-shadow: var(--shadow-modal);
+    }
+    .toast-dark    { background: var(--color-oscuro); }
+    .toast-success { background: var(--color-parque); }
+    .toast-error   { background: var(--color-acento); }
+    .toast-content { flex: 1; }
+    .toast-action  { font-size: 0.875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: rgba(255,255,255,0.85); background: none; border: none; cursor: pointer; padding: 0.25rem; white-space: nowrap; }
+
+    /* =====================================================
+       MODAL — full-screen on mobile
+    ===================================================== */
+    .modal-backdrop {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.5);
+      display: flex;
+      align-items: flex-end; /* slides from bottom on mobile */
+      z-index: 50;
+    }
+    .modal {
+      background: var(--color-superficie);
+      width: 100%;
+      max-height: 92vh;
+      overflow-y: auto;
+      border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+      padding-bottom: var(--safe-bottom);
+      
+    }
+    .modal-handle {
+      width: 36px; height: 4px;
+      background: var(--color-borde);
+      border-radius: 2px;
+      margin: 0.875rem auto 0;
+    }
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid var(--color-borde);
+      font-weight: 700;
+      font-size: 1.0625rem;
+      color: var(--color-oscuro);
+      min-height: var(--touch-target);
+    }
+    .modal-body   { padding: 1.25rem; }
+    .modal-footer {
+      padding: 1rem 1.25rem;
+      border-top: 1px solid var(--color-borde);
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .modal-close {
+      background: none; border: none; cursor: pointer;
+      color: var(--color-texto); font-size: 1.375rem;
+      min-width: var(--touch-target); min-height: var(--touch-target);
+      display: flex; align-items: center; justify-content: center;
+      border-radius: var(--radius-sm);
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* On larger screens: centered dialog */
+    @media (min-width: 640px) {
+      .modal-backdrop { align-items: center; }
+      .modal {
+        border-radius: var(--radius-lg);
+        max-width: 480px;
+        margin: 0 auto;
+        padding-bottom: 0;
+      }
+      .modal-handle { display: none; }
+      .modal-footer { flex-direction: row; justify-content: flex-end; }
+    }
+
+    /* =====================================================
+       BOTTOM NAVIGATION — primary nav pattern for mobile
+    ===================================================== */
+    .bottom-nav {
+      display: flex;
+      background: var(--color-superficie);
+      border-top: 1px solid var(--color-borde);
+      box-shadow: var(--shadow-nav);
+      padding-bottom: var(--safe-bottom);
+    }
+    .bottom-nav-item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.25rem;
+      min-height: 56px;
+      padding: 0.5rem 0.25rem;
+      font-size: 0.625rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--color-texto);
+      text-decoration: none;
+      -webkit-tap-highlight-color: transparent;
+      position: relative;
+      cursor: pointer;
+      background: none;
+      border: none;
+      transition: color 0.12s;
+    }
+    .bottom-nav-item svg { width: 22px; height: 22px; stroke-width: 1.75; }
+    .bottom-nav-item.active { color: var(--color-edificio); }
+    .bottom-nav-item.active::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 25%; right: 25%;
+      height: 2.5px;
+      background: var(--color-edificio);
+      border-radius: 0 0 3px 3px;
+    }
+
+    /* Badge on bottom nav item */
+    .bottom-nav-badge {
+      position: absolute;
+      top: 6px; right: calc(50% - 18px);
+      background: var(--color-acento);
+      color: white;
+      font-size: 0.5625rem;
+      font-weight: 700;
+      min-width: 16px;
+      height: 16px;
+      padding: 0 4px;
+      border-radius: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* =====================================================
+       SIDEBAR ITEM — used in desktop/tablet side nav
+    ===================================================== */
+    .sidebar-item {
+      display: flex;
+      align-items: center;
+      gap: 0.625rem;
+      padding: 0 1rem;
+      min-height: var(--touch-target);
+      font-size: 0.9375rem;
+      font-weight: 500;
+      color: var(--color-texto);
+      border-left: 3px solid transparent;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.12s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .sidebar-item:active, .sidebar-item:hover { background: var(--color-fondo); color: var(--color-oscuro); }
+    .sidebar-item.active { background: #fde8dc; color: var(--color-edificio); border-left-color: var(--color-edificio); font-weight: 600; }
+    .sidebar-section-label {
+      font-size: 0.6875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;
+      color: var(--color-borde); padding: 0.875rem 1rem 0.25rem;
+    }
+
+    /* =====================================================
+       AVATAR
+    ===================================================== */
+    .avatar {
+      display: inline-flex; align-items: center; justify-content: center;
+      border-radius: 50%; font-weight: 700; text-transform: uppercase; flex-shrink: 0;
+    }
+    .avatar-sm { width: 36px; height: 36px; font-size: 0.8125rem; }
+    .avatar-md { width: 44px; height: 44px; font-size: 0.9375rem; }
+    .avatar-lg { width: 60px; height: 60px; font-size: 1.25rem; }
+
+    .avatar-edificio { background: #fde8dc; color: var(--color-edificio); }
+    .avatar-parque   { background: #dceadc; color: var(--color-parque); }
+    .avatar-acento   { background: #fce0e3; color: var(--color-acento); }
+    .avatar-club     { background: #d1ecf0; color: #185a64; }
+
+    /* =====================================================
+       EMPTY STATE
+    ===================================================== */
+    .empty-state {
+      display: flex; flex-direction: column; align-items: center;
+      text-align: center; padding: 2.5rem 1.5rem; gap: 0.625rem;
+    }
+    .empty-state-icon {
+      width: 64px; height: 64px;
+      background: var(--color-fondo); border: 2px solid var(--color-borde);
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-size: 1.75rem; margin-bottom: 0.5rem;
+    }
+    .empty-state-title { font-weight: 600; color: var(--color-oscuro); font-size: 1rem; }
+    .empty-state-desc  { font-size: 0.9rem; max-width: 260px; line-height: 1.5; }
+
+    /* =====================================================
+       SPINNER
+    ===================================================== */
+    .spinner {
+      display: inline-block;
+      border-radius: 50%;
+      border-style: solid;
+      animation: spin 0.65s linear infinite;
+    }
+    .spinner-sm { width: 16px; height: 16px; border-width: 2px; border-color: rgba(201,84,30,0.2); border-top-color: var(--color-edificio); }
+    .spinner    { width: 22px; height: 22px; border-width: 2.5px; border-color: rgba(201,84,30,0.2); border-top-color: var(--color-edificio); }
+    .spinner-lg { width: 36px; height: 36px; border-width: 3px; border-color: rgba(201,84,30,0.2); border-top-color: var(--color-edificio); }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* =====================================================
+       TOPBAR — app shell
+    ===================================================== */
+    .topbar {
+      position: sticky; top: 0; z-index: 30;
+      background: var(--color-oscuro);
+      padding: 0 1rem;
+      display: flex; align-items: center;
+      min-height: 56px;
+      gap: 0.75rem;
+    }
+    .topbar-back {
+      min-width: var(--touch-target); min-height: var(--touch-target);
+      display: flex; align-items: center; justify-content: center;
+      color: rgba(255,255,255,0.7); background: none; border: none;
+      margin-left: -0.5rem; cursor: pointer; border-radius: var(--radius-sm);
+    }
+    .topbar-title {
+      flex: 1; font-family: var(--font-display); font-size: 1.1rem;
+      font-weight: 700; color: white; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .topbar-action {
+      min-width: var(--touch-target); min-height: var(--touch-target);
+      display: flex; align-items: center; justify-content: center;
+      color: rgba(255,255,255,0.8); background: none; border: none;
+      margin-right: -0.5rem; cursor: pointer; border-radius: var(--radius-sm);
+    }
+
+    /* =====================================================
+       DESIGN SYSTEM PAGE SHELL
+    ===================================================== */
+    .ds-header {
+      background: var(--color-oscuro);
+      padding: 0 1rem;
+      display: flex;
+      align-items: center;
+      min-height: 56px;
+      gap: 0.75rem;
+      position: sticky;
+      top: 0;
+      z-index: 40;
+    }
+    .ds-header-title {
+      flex: 1;
+      font-family: var(--font-display);
+      font-size: 0.9375rem;
+      font-weight: 700;
+      color: white;
+    }
+    .ds-header-title small {
+      display: block;
+      font-family: var(--font-body);
+      font-size: 0.625rem;
+      font-weight: 400;
+      color: rgba(255,255,255,0.4);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .ds-jump {
+      font-family: var(--font-body);
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: var(--color-oscuro);
+      background: rgba(255,255,255,0.12);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: var(--radius-sm);
+      padding: 0.375rem 0.625rem;
+      height: 38px;
+      cursor: pointer;
+      outline: none;
+      max-width: 160px;
+    }
+    .ds-jump option { background: var(--color-oscuro); color: white; }
+
+    .ds-main { padding: 1.25rem 1rem 2rem; max-width: 680px; margin: 0 auto; }
+    @media (min-width: 640px) { .ds-main { padding: 2rem 1.5rem 3rem; } }
+
+    .ds-section { margin-bottom: 3rem; }
+    .ds-section-title {
+      font-family: var(--font-display);
+      font-size: 1.375rem;
+      font-weight: 700;
+      color: var(--color-oscuro);
+      padding-bottom: 0.625rem;
+      border-bottom: 2.5px solid var(--color-edificio);
+      margin-bottom: 1.5rem;
+    }
+    .ds-subsection { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-texto); margin-bottom: 0.75rem; margin-top: 1.5rem; }
+    .ds-demo {
+      background: white;
+      border: 1px solid var(--color-borde);
+      border-radius: var(--radius-md);
+      padding: 1.25rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.875rem;
+    }
+    .ds-demo-col { display: flex; flex-direction: column; gap: 0.875rem; width: 100%; }
+    .ds-code {
+      background: #1e1e2e;
+      color: #cdd6f4;
+      font-size: 0.75rem;
+      font-family: 'Courier New', monospace;
+      padding: 0.875rem 1rem;
+      border-radius: 0 0 var(--radius-md) var(--radius-md);
+      border: 1px solid var(--color-borde);
+      border-top: none;
+      overflow-x: auto;
+      line-height: 1.6;
+    }
+
+    /* Phone frame for component demos */
+    .phone-frame {
+      background: var(--color-fondo);
+      border: 2px solid var(--color-oscuro);
+      border-radius: 20px;
+      overflow: hidden;
+      width: 100%;
+      max-width: 360px;
+      margin: 0 auto;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    }
+    .phone-screen { overflow: hidden; }
+
+    .ds-color-swatch { display: flex; flex-direction: column; gap: 0.25rem; flex: 1; min-width: 90px; }
+    .ds-swatch { height: 56px; border-radius: var(--radius-md); border: 1px solid rgba(0,0,0,0.06); }
+    .ds-swatch-name  { font-size: 0.75rem; font-weight: 600; color: var(--color-oscuro); }
+    .ds-swatch-hex   { font-size: 0.65rem; font-family: monospace; color: var(--color-texto); }
+    .ds-swatch-token { font-size: 0.6rem; font-family: monospace; color: #aaa; }
+
+    .ds-type-row { border-bottom: 1px solid var(--color-borde); padding: 0.875rem 0; }
+    .ds-type-row:last-child { border-bottom: none; }
+    .ds-type-meta { font-size: 0.65rem; font-family: monospace; color: #bbb; margin-bottom: 0.375rem; }
+
+    .ds-rule-ok  { color: var(--color-parque); font-weight: 600; }
+    .ds-rule-err { color: var(--color-acento);  font-weight: 600; }
+  </style>
+</head>
+<body>
+
+  <!-- DS Header -->
+  <header class="ds-header">
+    <div class="ds-header-title">
+      Parque Central
+      <small>Design System v2.0 · Mobile-first</small>
+    </div>
+    <select class="ds-jump" onchange="document.querySelector(this.value)?.scrollIntoView({behavior:'smooth'}); this.value=''">
+      <option value="">Ir a sección</option>
+      <optgroup label="Fundación">
+        <option value="#colores">Colores</option>
+        <option value="#tipografia">Tipografía</option>
+      </optgroup>
+      <optgroup label="Componentes">
+        <option value="#botones">Botones</option>
+        <option value="#badges">Badges</option>
+        <option value="#cards">Cards</option>
+        <option value="#formularios">Formularios</option>
+        <option value="#card-list">Card List (tabla mobile)</option>
+        <option value="#alertas">Alertas</option>
+        <option value="#toast">Toast / Snackbar</option>
+        <option value="#modal">Modal (bottom sheet)</option>
+      </optgroup>
+      <optgroup label="UI Shell">
+        <option value="#topbar">Topbar</option>
+        <option value="#bottom-nav">Bottom Navigation</option>
+        <option value="#sidebar">Sidebar</option>
+        <option value="#avatar">Avatar</option>
+        <option value="#utilidades">Utilidades</option>
+      </optgroup>
+    </select>
+  </header>
+
+  <main class="ds-main">
+
+    <div style="margin-bottom:2rem;">
+      <h1 class="type-hero" style="margin-bottom:0.25rem;">Design System</h1>
+      <p class="type-body">Mobile-first · 99% usuarios en dispositivo móvil</p>
+      <div style="margin-top:1rem; display:flex; flex-wrap:wrap; gap:0.5rem;">
+        <span class="badge badge-success">Touch targets 48px+</span>
+        <span class="badge badge-success">Inputs font-size 16px</span>
+        <span class="badge badge-success">Bottom navigation</span>
+        <span class="badge badge-success">No iOS zoom</span>
+      </div>
+    </div>
+
+    <!-- ==================== COLORES ==================== -->
+    <section class="ds-section" id="colores">
+      <h2 class="ds-section-title">Colores</h2>
+
+      <p class="ds-subsection">Paleta Primaria</p>
+      <div class="ds-demo">
+        <div class="ds-color-swatch">
+          <div class="ds-swatch" style="background:#C9541E;"></div>
+          <span class="ds-swatch-name">Terracota</span>
+          <span class="ds-swatch-hex">#C9541E</span>
+          <span class="ds-swatch-token">--color-edificio</span>
+        </div>
+        <div class="ds-color-swatch">
+          <div class="ds-swatch" style="background:#3E7A3C;"></div>
+          <span class="ds-swatch-name">Verde Parque</span>
+          <span class="ds-swatch-hex">#3E7A3C</span>
+          <span class="ds-swatch-token">--color-parque</span>
+        </div>
+        <div class="ds-color-swatch">
+          <div class="ds-swatch" style="background:#8ECDD8;"></div>
+          <span class="ds-swatch-name">Azul Club</span>
+          <span class="ds-swatch-hex">#8ECDD8</span>
+          <span class="ds-swatch-token">--color-club</span>
+        </div>
+        <div class="ds-color-swatch">
+          <div class="ds-swatch" style="background:#BE1E2D;"></div>
+          <span class="ds-swatch-name">Carmesí</span>
+          <span class="ds-swatch-hex">#BE1E2D</span>
+          <span class="ds-swatch-token">--color-acento</span>
+        </div>
+      </div>
+
+      <p class="ds-subsection">Neutros</p>
+      <div class="ds-demo">
+        <div class="ds-color-swatch">
+          <div class="ds-swatch" style="background:#1A1A1A;"></div>
+          <span class="ds-swatch-name">Casi Negro</span>
+          <span class="ds-swatch-hex">#1A1A1A</span>
+          <span class="ds-swatch-token">--color-oscuro</span>
+        </div>
+        <div class="ds-color-swatch">
+          <div class="ds-swatch" style="background:#5A5A5A;"></div>
+          <span class="ds-swatch-name">Gris Inst.</span>
+          <span class="ds-swatch-hex">#5A5A5A</span>
+          <span class="ds-swatch-token">--color-texto</span>
+        </div>
+        <div class="ds-color-swatch">
+          <div class="ds-swatch" style="background:#E5E5E5; border:1px solid #ddd;"></div>
+          <span class="ds-swatch-name">Gris Claro</span>
+          <span class="ds-swatch-hex">#E5E5E5</span>
+          <span class="ds-swatch-token">--color-borde</span>
+        </div>
+        <div class="ds-color-swatch">
+          <div class="ds-swatch" style="background:#F4F4F4; border:1px solid #ddd;"></div>
+          <span class="ds-swatch-name">Fondo</span>
+          <span class="ds-swatch-hex">#F4F4F4</span>
+          <span class="ds-swatch-token">--color-fondo</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TIPOGRAFÍA ==================== -->
+    <section class="ds-section" id="tipografia">
+      <h2 class="ds-section-title">Tipografía</h2>
+      <div class="ds-demo" style="display:block; padding:0;">
+        <div class="ds-type-row" style="padding:1rem 1.25rem;">
+          <div class="ds-type-meta">.type-hero · Playfair 700 · 2rem mobile / 3rem desktop</div>
+          <div class="type-hero">Parque Central</div>
+        </div>
+        <div class="ds-type-row" style="padding:1rem 1.25rem;">
+          <div class="ds-type-meta">.type-h1 · Playfair 700 · 1.625rem / 2.25rem</div>
+          <div class="type-h1">Club Residencial</div>
+        </div>
+        <div class="ds-type-row" style="padding:1rem 1.25rem;">
+          <div class="ds-type-meta">.type-h2 · Playfair 600 · 1.375rem / 1.75rem</div>
+          <div class="type-h2">Gestión de Torres</div>
+        </div>
+        <div class="ds-type-row" style="padding:1rem 1.25rem;">
+          <div class="ds-type-meta">.type-h3 · Inter 600 · 1.0625rem</div>
+          <div class="type-h3">Bitácora — Torre R</div>
+        </div>
+        <div class="ds-type-row" style="padding:1rem 1.25rem;">
+          <div class="ds-type-meta">.type-body · Inter 400 · 1rem (16px base)</div>
+          <div class="type-body">El pago de mantenimiento del mes vence el día 5. Agradecemos su puntualidad.</div>
+        </div>
+        <div class="ds-type-row" style="padding:1rem 1.25rem;">
+          <div class="ds-type-meta">.type-small · Inter 400 · 0.875rem</div>
+          <div class="type-small">Registrado por: Miguel Torres · 21 Jun 2026 · 09:42</div>
+        </div>
+        <div class="ds-type-row" style="padding:1rem 1.25rem;">
+          <div class="ds-type-meta">.type-label · Inter 700 uppercase · 0.6875rem</div>
+          <div class="type-label">Rol del usuario · Estado del recibo</div>
+        </div>
+        <div class="ds-type-row" style="padding:1rem 1.25rem;">
+          <div class="ds-type-meta">.type-caption · Inter 400 · 0.75rem</div>
+          <div class="type-caption">* El monto incluye cuota de mantenimiento más cargos pendientes.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== BOTONES ==================== -->
+    <section class="ds-section" id="botones">
+      <h2 class="ds-section-title">Botones</h2>
+
+      <p class="ds-subsection">Variantes — touch target mínimo 48px</p>
+      <div class="ds-demo ds-demo-col">
+        <button class="btn btn-primary btn-block">Confirmar registro</button>
+        <button class="btn btn-secondary btn-block">Cancelar</button>
+        <button class="btn btn-danger btn-block">Eliminar registro</button>
+        <button class="btn btn-ghost btn-block">Ver historial</button>
+      </div>
+      <div class="ds-code">.btn.btn-primary.btn-block  ← full-width (patrón mobile principal)
+.btn.btn-secondary.btn-block
+.btn.btn-danger.btn-block
+.btn.btn-ghost.btn-block</div>
+
+      <p class="ds-subsection">En fila (acciones secundarias)</p>
+      <div class="ds-demo">
+        <button class="btn btn-primary">Confirmar</button>
+        <button class="btn btn-ghost">Cancelar</button>
+      </div>
+      <div class="ds-code">&lt;!-- Solo cuando hay 2 acciones de igual jerarquía --&gt;
+&lt;button class="btn btn-primary"&gt;Confirmar&lt;/button&gt;
+&lt;button class="btn btn-ghost"&gt;Cancelar&lt;/button&gt;</div>
+
+      <p class="ds-subsection">Con spinner</p>
+      <div class="ds-demo">
+        <button class="btn btn-primary btn-block" disabled>
+          <span class="spinner spinner-sm" style="border-color:rgba(255,255,255,0.3); border-top-color:#fff;"></span>
+          Guardando...
+        </button>
+      </div>
+      <div class="ds-code">&lt;button class="btn btn-primary btn-block" disabled&gt;
+  &lt;span class="spinner spinner-sm" style="border-color:rgba(255,255,255,0.3); border-top-color:#fff;"&gt;&lt;/span&gt;
+  Guardando...
+&lt;/button&gt;</div>
+
+      <p class="ds-subsection">Compacto .btn-sm — solo en listas y tablas</p>
+      <div class="ds-demo" style="align-items:center;">
+        <button class="btn btn-ghost btn-sm">Registrar salida</button>
+        <button class="btn btn-primary btn-sm">Validar</button>
+        <button class="btn btn-danger btn-sm">Anular</button>
+      </div>
+      <div class="ds-code">.btn.btn-sm  ← solo en celdas de tabla o card-list-item</div>
+    </section>
+
+    <!-- ==================== BADGES ==================== -->
+    <section class="ds-section" id="badges">
+      <h2 class="ds-section-title">Badges</h2>
+
+      <p class="ds-subsection">Roles de Usuario</p>
+      <div class="ds-demo" style="gap:0.5rem;">
+        <span class="badge badge-admin">Admin</span>
+        <span class="badge badge-board">Presidente</span>
+        <span class="badge badge-board">Tesorero</span>
+        <span class="badge badge-guard">Vigilante Torre</span>
+        <span class="badge badge-guard">Vigilante Condo</span>
+        <span class="badge badge-resident">Propietario</span>
+        <span class="badge badge-resident">Inquilino</span>
+      </div>
+      <div class="ds-code">.badge.badge-admin / .badge.badge-board
+.badge.badge-guard / .badge.badge-resident</div>
+
+      <p class="ds-subsection">Estados</p>
+      <div class="ds-demo" style="gap:0.5rem;">
+        <span class="badge badge-success">Pagado</span>
+        <span class="badge badge-success">Validado</span>
+        <span class="badge badge-pending">Pendiente</span>
+        <span class="badge badge-pending">En revisión</span>
+        <span class="badge badge-error">Rechazado</span>
+        <span class="badge badge-neutral">Anulado</span>
+      </div>
+      <div class="ds-code">.badge.badge-success / .badge.badge-pending
+.badge.badge-error / .badge.badge-neutral</div>
+    </section>
+
+    <!-- ==================== CARDS ==================== -->
+    <section class="ds-section" id="cards">
+      <h2 class="ds-section-title">Cards</h2>
+
+      <p class="ds-subsection">Card Estándar</p>
+      <div class="ds-demo" style="padding:0; display:block;">
+        <div class="card">
+          <div class="card-header">
+            Entradas del día
+            <span class="badge badge-success">12 activas</span>
+          </div>
+          <div class="card-body">
+            <p class="type-body">Resumen de ingresos y salidas registradas en Torre R.</p>
+          </div>
+          <div class="card-footer">
+            <button class="btn btn-primary" style="flex:1;">Ver bitácora</button>
+            <button class="btn btn-ghost btn-sm">Exportar</button>
+          </div>
+        </div>
+      </div>
+      <div class="ds-code">.card &gt; .card-header + .card-body + .card-footer</div>
+
+      <p class="ds-subsection">Cards KPI (Dashboard)</p>
+      <div class="ds-demo" style="gap:0.75rem;">
+        <div class="card-stat" style="flex:1; min-width:130px;">
+          <div class="card-stat-value">96</div>
+          <div class="card-stat-label">Dptos · Torre R</div>
+        </div>
+        <div class="card-stat" style="flex:1; min-width:130px; border-left-color:var(--color-parque);">
+          <div class="card-stat-value" style="color:var(--color-parque);">S/ 24,800</div>
+          <div class="card-stat-label">Recaudado Jun 2026</div>
+        </div>
+      </div>
+      <div class="ds-demo" style="gap:0.75rem; margin-top:-0.5rem; border-top:none; border-radius: 0 0 var(--radius-md) var(--radius-md);">
+        <div class="card-stat" style="flex:1; min-width:130px; border-left-color:var(--color-acento);">
+          <div class="card-stat-value" style="color:var(--color-acento);">7</div>
+          <div class="card-stat-label">Pagos en revisión</div>
+        </div>
+        <div class="card-stat" style="flex:1; min-width:130px; border-left-color:var(--color-club);">
+          <div class="card-stat-value" style="color:#185a64;">3</div>
+          <div class="card-stat-label">Incidencias abiertas</div>
+        </div>
+      </div>
+      <div class="ds-code">.card-stat &gt; .card-stat-value + .card-stat-label
+/* border-left-color cambia según contexto */</div>
+    </section>
+
+    <!-- ==================== FORMULARIOS ==================== -->
+    <section class="ds-section" id="formularios">
+      <h2 class="ds-section-title">Formularios</h2>
+      <p style="font-size:0.8125rem; color:var(--color-acento); font-weight:600; margin-bottom:1rem;">
+        ⚠ font-size: 16px en todos los inputs — previene zoom automático en iOS
+      </p>
+
+      <div class="ds-demo" style="display:block; padding:1.25rem;">
+        <div style="display:flex; flex-direction:column; gap:1rem;">
+          <div class="input-group">
+            <label class="input-label">Nombre del visitante</label>
+            <input class="input-field" type="text" placeholder="Carlos Mendoza">
+            <span class="input-hint">Nombre completo según DNI</span>
+          </div>
+          <div class="input-group">
+            <label class="input-label">DNI</label>
+            <input class="input-field error" type="number" inputmode="numeric" value="1234" placeholder="12345678">
+            <span class="input-error-msg">El DNI debe tener 8 dígitos.</span>
+          </div>
+          <div class="input-group">
+            <label class="input-label">Motivo de visita</label>
+            <select class="select-field">
+              <option value="">Seleccionar...</option>
+              <option>Visita familiar</option>
+              <option>Delivery / encomienda</option>
+              <option>Proveedor / mantenimiento</option>
+            </select>
+          </div>
+          <div class="input-group">
+            <label class="input-label">Observaciones</label>
+            <textarea class="textarea-field" placeholder="Detalles adicionales..."></textarea>
+          </div>
+          <button class="btn btn-primary btn-block">Registrar entrada</button>
+          <button class="btn btn-ghost btn-block">Cancelar</button>
+        </div>
+      </div>
+      <div class="ds-code">.input-group &gt; .input-label + .input-field + .input-hint
+.input-field.error + .input-error-msg
+/* inputmode="numeric" para DNI — abre teclado numérico en mobile */</div>
+    </section>
+
+    <!-- ==================== CARD LIST ==================== -->
+    <section class="ds-section" id="card-list">
+      <h2 class="ds-section-title">Card List</h2>
+      <p class="type-small" style="margin-bottom:1rem;">
+        Reemplaza las tablas en mobile. Cada fila es un ítem táctil de 68px mínimo. Scroll horizontal no existe en este patrón.
+      </p>
+
+      <div class="ds-demo" style="padding:0; display:block;">
+        <div class="card-list">
+          <div class="card-list-item">
+            <div class="avatar avatar-md avatar-edificio">CM</div>
+            <div class="card-list-item-content">
+              <div class="card-list-item-title">Carlos Mendoza</div>
+              <div class="card-list-item-subtitle">DNI 47821936 · Visita familiar</div>
+              <div class="card-list-item-meta">Ingresó 09:24 am</div>
+            </div>
+            <div class="card-list-item-right">
+              <span class="badge badge-success">En local</span>
+              <button class="btn btn-ghost btn-sm">Salida</button>
+            </div>
+          </div>
+          <div class="card-list-item">
+            <div class="avatar avatar-md avatar-club">LR</div>
+            <div class="card-list-item-content">
+              <div class="card-list-item-title">Luis Ríos</div>
+              <div class="card-list-item-subtitle">DNI 31204758 · Delivery</div>
+              <div class="card-list-item-meta">Ingresó 10:05 am · Salió 10:18 am</div>
+            </div>
+            <div class="card-list-item-right">
+              <span class="badge badge-neutral">Salió</span>
+            </div>
+          </div>
+          <div class="card-list-item">
+            <div class="avatar avatar-md avatar-parque">MT</div>
+            <div class="card-list-item-content">
+              <div class="card-list-item-title">María Torres</div>
+              <div class="card-list-item-subtitle">DNI 52109834 · Mantenimiento</div>
+              <div class="card-list-item-meta">Ingresó 11:30 am</div>
+            </div>
+            <div class="card-list-item-right">
+              <span class="badge badge-pending">En local</span>
+              <button class="btn btn-ghost btn-sm">Salida</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ds-code">.card-list &gt; .card-list-item
+  .avatar
+  .card-list-item-content
+    .card-list-item-title
+    .card-list-item-subtitle
+    .card-list-item-meta
+  .card-list-item-right
+    .badge + .btn.btn-sm</div>
+
+      <p class="ds-subsection">Tabla — solo desktop / landscape</p>
+      <div class="ds-demo" style="padding:0; display:block;">
+        <div class="table-wrapper">
+          <table class="table-pylon">
+            <thead><tr><th>Visitante</th><th>DNI</th><th>Motivo</th><th>Estado</th><th></th></tr></thead>
+            <tbody>
+              <tr>
+                <td>Carlos Mendoza</td><td>47821936</td><td>Visita familiar</td>
+                <td><span class="badge badge-success">En local</span></td>
+                <td><button class="btn btn-ghost btn-sm">Salida</button></td>
+              </tr>
+              <tr>
+                <td>Luis Ríos</td><td>31204758</td><td>Delivery</td>
+                <td><span class="badge badge-neutral">Salió</span></td>
+                <td>—</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="ds-code">&lt;div class="table-wrapper"&gt; ← overflow-x: auto
+  &lt;table class="table-pylon"&gt;...</div>
+    </section>
+
+    <!-- ==================== ALERTAS ==================== -->
+    <section class="ds-section" id="alertas">
+      <h2 class="ds-section-title">Alertas</h2>
+      <p class="type-small" style="margin-bottom:1rem;">Para mensajes persistentes en página. Para feedback de acción instantánea, usar Toast.</p>
+
+      <div class="ds-demo ds-demo-col">
+        <div class="alert alert-success">
+          <span class="alert-icon">✓</span>
+          <div class="alert-content">
+            <div class="alert-title">Pago validado</div>
+            El pago del departamento 401 fue validado exitosamente.
+          </div>
+        </div>
+        <div class="alert alert-error">
+          <span class="alert-icon">✕</span>
+          <div class="alert-content">
+            <div class="alert-title">Error al registrar</div>
+            El DNI ingresado ya tiene un acceso activo en el sistema.
+          </div>
+        </div>
+        <div class="alert alert-warning">
+          <span class="alert-icon">!</span>
+          <div class="alert-content">
+            <div class="alert-title">Pago pendiente de revisión</div>
+            El departamento 205 tiene un voucher sin validar.
+          </div>
+        </div>
+        <div class="alert alert-info">
+          <span class="alert-icon">i</span>
+          <div class="alert-content">
+            <div class="alert-title">Mantenimiento programado</div>
+            La piscina estará cerrada el sábado 28 de junio de 8:00 am a 12:00 pm.
+          </div>
+        </div>
+      </div>
+      <div class="ds-code">.alert.alert-success / .alert.alert-error
+.alert.alert-warning / .alert.alert-info</div>
+    </section>
+
+    <!-- ==================== TOAST ==================== -->
+    <section class="ds-section" id="toast">
+      <h2 class="ds-section-title">Toast / Snackbar</h2>
+      <p class="type-small" style="margin-bottom:1rem;">
+        Feedback inmediato de acciones. Aparece sobre el bottom nav (~80px desde abajo). Auto-desaparece en 3s. Patrón mobile nativo.
+      </p>
+
+      <div class="ds-demo ds-demo-col">
+        <div class="toast-demo toast-dark">
+          <span style="font-size:1.1rem;">✓</span>
+          <div class="toast-content">Entrada registrada correctamente.</div>
+          <button class="toast-action">Ver</button>
+        </div>
+        <div class="toast-demo toast-success">
+          <span style="font-size:1.1rem;">✓</span>
+          <div class="toast-content">Pago validado — Dpto. 401</div>
+        </div>
+        <div class="toast-demo toast-error">
+          <span style="font-size:1.1rem;">✕</span>
+          <div class="toast-content">Error de conexión. Reintentando...</div>
+          <button class="toast-action">Reintentar</button>
+        </div>
+      </div>
+      <div class="ds-code">.toast-demo.toast-dark   ← acción genérica
+.toast-demo.toast-success ← confirmación
+.toast-demo.toast-error   ← error con acción
+/* Posición real: position:fixed; bottom:80px; left:1rem; right:1rem; */</div>
+    </section>
+
+    <!-- ==================== MODAL ==================== -->
+    <section class="ds-section" id="modal">
+      <h2 class="ds-section-title">Modal — Bottom Sheet</h2>
+      <p class="type-small" style="margin-bottom:1rem;">
+        En mobile: slide desde abajo (bottom sheet). En desktop: dialog centrado. Mismo componente, comportamiento adaptado por CSS.
+      </p>
+
+      <div class="ds-demo" style="padding:0; display:block; background:#ccc;">
+        <!-- Simulated bottom sheet -->
+        <div style="position:relative; height:380px; overflow:hidden; border-radius:var(--radius-md);">
+          <div style="position:absolute; inset:0; background:rgba(0,0,0,0.45);"></div>
+          <div style="position:absolute; bottom:0; left:0; right:0; background:white; border-radius:20px 20px 0 0;">
+            <div class="modal-handle"></div>
+            <div class="modal-header">
+              Aprobar incidencia
+              <button class="modal-close">✕</button>
+            </div>
+            <div class="modal-body">
+              <p class="type-body" style="margin-bottom:1rem;">¿Confirma la aprobación con multa? Se notificará al propietario del departamento 305.</p>
+              <div class="input-group">
+                <label class="input-label">Monto de multa (S/)</label>
+                <input class="input-field" type="number" inputmode="decimal" value="150.00">
+              </div>
+            </div>
+            <div class="modal-footer" style="flex-direction:column;">
+              <button class="btn btn-primary btn-block">Confirmar multa</button>
+              <button class="btn btn-ghost btn-block">Cancelar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ds-code">.modal (mobile: slide desde abajo, border-radius top)
+  .modal-handle     ← indicador de arrastre
+  .modal-header + .modal-body + .modal-footer
+/* footer: flex-col en mobile, flex-row en desktop */</div>
+    </section>
+
+    <!-- ==================== TOPBAR ==================== -->
+    <section class="ds-section" id="topbar">
+      <h2 class="ds-section-title">Topbar</h2>
+      <p class="type-small" style="margin-bottom:1rem;">Barra superior fija. Altura 56px. Botones laterales 48px touch target.</p>
+
+      <div class="ds-subsection">Vista principal (sin back)</div>
+      <div class="ds-demo" style="padding:0; display:block;">
+        <div class="phone-frame">
+          <div class="topbar">
+            <div style="display:flex;align-items:center;gap:0.625rem;flex:1;">
+              <div style="width:30px;height:30px;background:var(--color-edificio);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;color:white;flex-shrink:0;">PC</div>
+              <span class="topbar-title" style="font-size:0.95rem;">Pylon</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:0.25rem;">
+              <span class="type-caption" style="color:rgba(255,255,255,0.5);">Torre R</span>
+              <div class="avatar avatar-sm avatar-edificio" style="margin-left:0.375rem;">JM</div>
+            </div>
+          </div>
+          <div style="padding:1rem;background:var(--color-fondo);min-height:80px;"></div>
+        </div>
+      </div>
+
+      <div class="ds-subsection" style="margin-top:1.25rem;">Vista de detalle (con back)</div>
+      <div class="ds-demo" style="padding:0; display:block;">
+        <div class="phone-frame">
+          <div class="topbar">
+            <button class="topbar-back">
+              <i data-lucide="arrow-left"></i>
+            </button>
+            <span class="topbar-title">Nueva entrada</span>
+            <button class="topbar-action">
+              <i data-lucide="more-horizontal"></i>
+            </button>
+          </div>
+          <div style="padding:1rem;background:var(--color-fondo);min-height:80px;"></div>
+        </div>
+      </div>
+      <div class="ds-code">.topbar
+  .topbar-back  ← 48x48, icono flecha
+  .topbar-title ← flex:1, Playfair
+  .topbar-action ← 48x48, icono acción</div>
+    </section>
+
+    <!-- ==================== BOTTOM NAV ==================== -->
+    <section class="ds-section" id="bottom-nav">
+      <h2 class="ds-section-title">Bottom Navigation</h2>
+      <p class="type-small" style="margin-bottom:1rem;">
+        Navegación principal. Fija en la parte inferior. 3–5 ítems. El pulgar alcanza fácilmente. Reemplaza el sidebar en mobile.
+      </p>
+
+      <div class="ds-demo" style="padding:0; display:block;">
+        <div class="phone-frame">
+          <div style="background:var(--color-fondo); min-height:200px; display:flex; align-items:center; justify-content:center;">
+            <p class="type-caption" style="color:#bbb;">Contenido de la pantalla</p>
+          </div>
+          <div class="bottom-nav">
+            <button class="bottom-nav-item active">
+              <i data-lucide="layout-dashboard"></i>
+              Inicio
+            </button>
+            <button class="bottom-nav-item" style="position:relative;">
+              <i data-lucide="shield"></i>
+              <span class="bottom-nav-badge">3</span>
+              Sentinel
+            </button>
+            <button class="bottom-nav-item">
+              <i data-lucide="clipboard-list"></i>
+              Tracert
+            </button>
+            <button class="bottom-nav-item">
+              <i data-lucide="user"></i>
+              Perfil
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="ds-code">.bottom-nav
+  .bottom-nav-item.active   ← línea superior Terracota
+  .bottom-nav-item
+    &lt;i data-lucide="icon-name"&gt;&lt;/i&gt;  ← Lucide icon 22px
+    .bottom-nav-badge ← número de notificaciones
+    "Label"
+/* padding-bottom: env(safe-area-inset-bottom) — iPhone notch */</div>
+
+      <p class="ds-subsection">Reglas de uso</p>
+      <div class="ds-demo ds-demo-col" style="gap:0.5rem;">
+        <p class="type-small"><span class="ds-rule-ok">✓ Máximo 5 ítems</span> — más de 5 confunde al usuario</p>
+        <p class="type-small"><span class="ds-rule-ok">✓ Íconos + texto</span> — texto siempre visible, nunca solo ícono</p>
+        <p class="type-small"><span class="ds-rule-ok">✓ Badge para notificaciones</span> — número máximo "9+"</p>
+        <p class="type-small"><span class="ds-rule-err">✗ No usar para acciones</span> — solo para navegación entre secciones principales</p>
+        <p class="type-small"><span class="ds-rule-err">✗ No mezclar con sidebar lateral</span> — elige uno según el dispositivo</p>
+      </div>
+    </section>
+
+    <!-- ==================== SIDEBAR ==================== -->
+    <section class="ds-section" id="sidebar">
+      <h2 class="ds-section-title">Sidebar</h2>
+      <p class="type-small" style="margin-bottom:1rem;">Para tablet y desktop únicamente. En mobile usar Bottom Navigation.</p>
+
+      <div class="ds-demo" style="padding:0; display:block; max-width:240px;">
+        <div style="padding:0.75rem 0; background:white;">
+          <div class="sidebar-section-label">Gestión</div>
+          <a href="#" class="sidebar-item active">
+            <i data-lucide="layout-dashboard"></i>
+            Dashboard
+          </a>
+          <div class="sidebar-section-label">Seguridad</div>
+          <a href="#" class="sidebar-item">
+            <i data-lucide="shield"></i>
+            Sentinel
+          </a>
+          <a href="#" class="sidebar-item">
+            <i data-lucide="clipboard-list"></i>
+            Tracert
+          </a>
+        </div>
+      </div>
+      <div class="ds-code">.sidebar-item.active ← borde izquierdo 3px Terracota
+.sidebar-section-label ← separador de sección
+/* Solo visible en sm: breakpoint y arriba */</div>
+    </section>
+
+    <!-- ==================== AVATAR ==================== -->
+    <section class="ds-section" id="avatar">
+      <h2 class="ds-section-title">Avatar</h2>
+
+      <div class="ds-demo" style="align-items:center; gap:1.25rem;">
+        <div class="avatar avatar-sm avatar-edificio">JM</div>
+        <div class="avatar avatar-md avatar-edificio">JM</div>
+        <div class="avatar avatar-lg avatar-edificio">JM</div>
+      </div>
+      <div class="ds-code">.avatar.avatar-sm (36px) · .avatar.avatar-md (44px) · .avatar.avatar-lg (60px)</div>
+
+      <p class="ds-subsection">Por Rol</p>
+      <div class="ds-demo" style="gap:1.25rem; align-items:center;">
+        <div style="text-align:center;">
+          <div class="avatar avatar-md avatar-acento" style="margin:0 auto 0.375rem;">AD</div>
+          <div class="type-caption">Admin</div>
+        </div>
+        <div style="text-align:center;">
+          <div class="avatar avatar-md avatar-edificio" style="margin:0 auto 0.375rem;">PR</div>
+          <div class="type-caption">Board</div>
+        </div>
+        <div style="text-align:center;">
+          <div class="avatar avatar-md avatar-club" style="margin:0 auto 0.375rem;">VG</div>
+          <div class="type-caption">Guardia</div>
+        </div>
+        <div style="text-align:center;">
+          <div class="avatar avatar-md avatar-parque" style="margin:0 auto 0.375rem;">RS</div>
+          <div class="type-caption">Residente</div>
+        </div>
+      </div>
+      <div class="ds-code">.avatar.avatar-acento / .avatar.avatar-edificio
+.avatar.avatar-club / .avatar.avatar-parque</div>
+    </section>
+
+    <!-- ==================== UTILIDADES ==================== -->
+    <section class="ds-section" id="utilidades">
+      <h2 class="ds-section-title">Utilidades</h2>
+
+      <p class="ds-subsection">Empty State</p>
+      <div class="ds-demo" style="display:block;">
+        <div class="empty-state">
+          <div class="empty-state-icon">📋</div>
+          <div class="empty-state-title">Sin registros hoy</div>
+          <p class="empty-state-desc">Los registros de entrada aparecerán aquí una vez que el vigilante inicie la bitácora.</p>
+          <button class="btn btn-primary" style="margin-top:0.75rem;">Registrar primera entrada</button>
+        </div>
+      </div>
+      <div class="ds-code">.empty-state &gt; .empty-state-icon + .empty-state-title
+  + .empty-state-desc + .btn</div>
+
+      <p class="ds-subsection">Spinners</p>
+      <div class="ds-demo" style="align-items:center; gap:1.5rem;">
+        <div style="text-align:center;">
+          <div class="spinner spinner-sm"></div>
+          <div class="type-caption" style="margin-top:0.5rem;">sm · 16px</div>
+        </div>
+        <div style="text-align:center;">
+          <div class="spinner"></div>
+          <div class="type-caption" style="margin-top:0.5rem;">md · 22px</div>
+        </div>
+        <div style="text-align:center;">
+          <div class="spinner spinner-lg"></div>
+          <div class="type-caption" style="margin-top:0.5rem;">lg · 36px</div>
+        </div>
+      </div>
+      <div class="ds-code">.spinner.spinner-sm / .spinner / .spinner.spinner-lg</div>
+    </section>
+
+    <footer style="border-top:1px solid var(--color-borde); padding-top:1.5rem; margin-top:1rem;">
+      <p class="type-caption">Parque Central Club Residencial · Design System v2.0 · Mobile-first · Sistema Pylon · 2026</p>
+    </footer>
+  </main>
+
+  <script>lucide.createIcons();</script>
+</body>
+</html>
